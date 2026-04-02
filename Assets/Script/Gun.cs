@@ -9,6 +9,7 @@ public class Gun : MonoBehaviour
     private AudioSource gunAudioPlayer;
 
     public LayerMask targetMask;
+    float fireDistance = 100f;
     public float fireRate = 0.2f;
     private float lastFireTime;
     public ParticleSystem gunParticle;
@@ -37,13 +38,23 @@ public class Gun : MonoBehaviour
 
     public void Shot()
     {
+
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         RaycastHit hit;
 
         Vector3 targetPoint;
 
-        if (Physics.Raycast(ray, out hit, targetMask))
+
+        if (Physics.Raycast(ray, out hit, fireDistance, targetMask))
         {
+            
+
+            var living = hit.collider.GetComponentInParent<Livingentity>();
+            if (living != null)
+            {
+                living.OnDamage(10f, hit.point, hit.normal);
+                
+            }
             targetPoint = hit.point;
         }
         else
@@ -66,9 +77,6 @@ public class Gun : MonoBehaviour
     {
 
         gunParticle.Play();
-        
-
-        
 
         bulletLineEffect.SetPosition(0, firePoint.position);
         bulletLineEffect.SetPosition(1, hitPosition);
