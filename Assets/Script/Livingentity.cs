@@ -5,6 +5,7 @@ public class Livingentity : MonoBehaviour, IDamageable
     
     public float startingHealth = 100f;
 
+    protected float damage;
     public float Health { get; private set; }
 
     public bool IsDead { get; private set; }
@@ -15,6 +16,10 @@ public class Livingentity : MonoBehaviour, IDamageable
     {
         IsDead = false;
         Health = startingHealth;
+    }
+    public void SetHealth(float value)
+    {
+        Health = value;
     }
     public virtual void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
     {

@@ -5,8 +5,8 @@ using System.Collections;
 public class Monster : Livingentity
 {
     public enum State { Idle, Trace, Attack, Die }
+    public MonsterData data;
 
-    
     public Collider monsterCollider;
     public Hitbox hitbox;
     public ParticleSystem hittedEffect;
@@ -59,6 +59,7 @@ public class Monster : Livingentity
         {
             target = FindTarget(traceDistance);
         }
+
 
         // target이 있으면 거리 체크 후 상태 전환
         if (target != null)
@@ -164,6 +165,16 @@ public class Monster : Livingentity
         }
 
         return closest;
+    }
+    public void Setup(MonsterData data)
+    {
+        this.data = data;
+
+        startingHealth = data.maxHP;
+        SetHealth(startingHealth); 
+
+        damage = data.damage;
+        agent.speed = data.speed;
     }
 
     public override void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
